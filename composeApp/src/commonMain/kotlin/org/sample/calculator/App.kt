@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,17 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun App() {
+    val buttons = remember {
+        listOf(
+            listOf("AC", "+/-", "%", "/"),
+            listOf("7", "8", "9", "x"),
+            listOf("4", "5", "6", "-"),
+            listOf("1", "2", "3", "+"),
+            listOf("0", ".", "="),
+        )
+    }
+    val operators = remember { listOf("/", "*", "+", "-", "=") }
+    val extraOperators = remember { listOf("AC", "+/-", "%") }
     MaterialTheme {
         Column(Modifier.fillMaxSize()) {
             Text(
@@ -31,6 +43,39 @@ fun App() {
                     .background(color = Color.DarkGray),
                 style = TextStyle(fontSize = 45.sp)
             )
+            // buttonをforEachでloopする。
+            buttons.forEach { rowButtons ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    rowButtons.forEachIndexed { index, item ->
+                        when {
+                            extraOperators.contains(item) -> {
+                                extraButton(
+                                    text = item,
+                                    onClick = {  }
+                                )
+                            }
+                            operators.contains(item) -> {
+                                operatorButton(
+                                    text = item,
+                                    onClick = {  }
+                                )
+                            }
+                            else -> {
+                                digitButton(
+                                    // To make 0 button
+                                    modifier = Modifier.weight(
+                                        if (rowButtons.size < 4 && index == 0) 2f else 1f
+                                    ),
+                                    text = item,
+                                    onClick = {  }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

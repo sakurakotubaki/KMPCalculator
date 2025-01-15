@@ -15,6 +15,20 @@ import androidx.compose.ui.unit.sp
 
 // Gray Button
 @Composable
+fun extraButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    onClick: (String) -> Unit,
+) {
+    flatButton(
+        modifier = modifier,
+        text = text,
+        backgroundColor = Color.Gray,
+        onClick = onClick
+    )
+}
+
+@Composable
 fun digitButton(
     modifier: Modifier = Modifier,
     text: String,
