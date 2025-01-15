@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,6 +16,20 @@ import androidx.compose.ui.unit.sp
 
 // Gray Button
 @Composable
+fun extraButton(
+    modifier: Modifier = Modifier,
+    text: String,
+    onClick: (String) -> Unit,
+) {
+    flatButton(
+        modifier = modifier,
+        text = text,
+        backgroundColor = MaterialTheme.colors.primaryVariant,
+        onClick = onClick
+    )
+}
+
+@Composable
 fun digitButton(
     modifier: Modifier = Modifier,
     text: String,
@@ -23,7 +38,7 @@ fun digitButton(
     flatButton(
         modifier = modifier,
         text = text,
-        backgroundColor = Color.Gray,
+        backgroundColor = MaterialTheme.colors.primary,
         onClick = onClick
     )
 }
@@ -38,7 +53,7 @@ fun operatorButton(
     flatButton(
         modifier = modifier,
         text = text,
-        backgroundColor = Color.Yellow,
+        backgroundColor = MaterialTheme.colors.secondary,
         onClick = onClick
     )
 }
