@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,11 +34,13 @@ fun Calculator() {
     }
     val operators = remember { listOf("/", "*", "+", "-", "=") }
     val extraOperators = remember { listOf("AC", "+/-", "%") }
+    val viewModel = remember { CalculatorViewModel() }
+    val state = viewModel.state.collectAsState()
     MaterialTheme(colors = themeColors()) {
         Column(Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.height(30.dp))
             Text(
-                text = "0",
+                text = state.value.currentOperand,
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(alignment = Alignment.End)
@@ -58,14 +61,14 @@ fun Calculator() {
                                 extraButton(
                                     modifier = Modifier.weight(1f),
                                     text = item,
-                                    onClick = {  }
+                                    onClick = viewModel::onOperatorClicked
                                 )
                             }
                             operators.contains(item) -> {
                                 operatorButton(
                                     modifier = Modifier.weight(1f),
                                     text = item,
-                                    onClick = {  }
+                                    onClick = viewModel::onOperatorClicked
                                 )
                             }
                             else -> {
@@ -75,7 +78,7 @@ fun Calculator() {
                                         if (rowButtons.size < 4 && index == 0) 2f else 1f
                                     ),
                                     text = item,
-                                    onClick = {  }
+                                    onClick = viewModel::onOperatorClicked
                                 )
                             }
                         }
