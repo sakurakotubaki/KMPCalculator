@@ -14,7 +14,7 @@ class CalculatorViewModel {
         when(buttonValue) {
             "AC" ->  _state.update { CalculatorState() }
             "+/-" -> { unaryMinus() }
-            "+", "-", "/", "%", "*" -> {
+            "+", "-", "/", "%", "*", "x" -> {
                 _state.update {
                     it.copy(
                         firstOperand = it.currentOperand,
@@ -43,8 +43,14 @@ class CalculatorViewModel {
         if (first == null || second == null) return
         _state.update {
             when(it.operator) {
-                "/" -> CalculatorState(currentOperand = if (second == 0.0) "0" else (first/second).toString())
-                "*" -> CalculatorState(currentOperand = (first*second).toString())
+                "/" -> {
+                    if (second == 0.0) {
+                        CalculatorState(currentOperand = "Error: Div by 0")
+                    } else {
+                        CalculatorState(currentOperand = (first/second).toString())
+                    }
+                }
+                "*", "x" -> CalculatorState(currentOperand = (first*second).toString())
                 "+" -> CalculatorState(currentOperand = (first+second).toString())
                 "-" -> CalculatorState(currentOperand = (first-second).toString())
                 "%" -> CalculatorState(currentOperand = (first%second).toString())
@@ -55,9 +61,11 @@ class CalculatorViewModel {
 
     private fun addDecimal() {
         _state.update {
-            it.copy(
-                currentOperand = it.currentOperand.trimEnd('.')
-            )
+            if (!it.currentOperand.contains(".")) {
+                it.copy(currentOperand = "${it.currentOperand}.")
+            } else {
+                it
+            }
         }
     }
 
